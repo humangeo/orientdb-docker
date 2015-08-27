@@ -24,7 +24,7 @@ sed "/<users>/,/<\/users>/{
   # insert new user info after opening tag.
   /<users>/{
     s|$|\\
-      <user name=\"$ODB_ADMIN_USER\" password=\"$ODB_ADMIN_USER\" resources=\"*\" />|
+      <user name=\"$ODB_ADMIN_USER\" password=\"$ODB_ADMIN_PASSWORD\" resources=\"*\" />|
     b
   }
 
