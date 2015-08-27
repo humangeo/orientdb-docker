@@ -36,8 +36,3 @@ rm -f orientdb-community-$ORIENTDB_VERSION.tar.gz
 # remove installation dependencies
 apt-get -y purge curl
 apt-get -y autoremove
-
-
-# use a more informative prompt for root user when using tty
-echo 'PS1="\[\e[0;36m\]\u@\h\[\e[0m\]\n\[\e[0;33m\]\w\[\e[0m\] >\[\e[0;31m\]:\[\e[0m\] "' >> /root/.bashrc
-echo 'export PS1' >> /root/.bashrc
