@@ -1,5 +1,5 @@
 #!/bin/sh -eu
-ORIENTDB_VERSION="2.1.2"
+ORIENTDB_VERSION="2.1.3"
 ORIENTDB_HOME=/opt/orientdb
 
 
@@ -35,4 +35,12 @@ rm -f orientdb-community-$ORIENTDB_VERSION.tar.gz
 
 # remove installation dependencies
 apt-get -y purge curl
-apt-get -y autoremove
+
+
+# clean up (apt)
+apt-get clean     # remove packages that have been downloaded, installed, and no longer needed
+apt-get autoclean # remove archived packages that can no longer be downloaded
+
+
+# clean up (misc.)
+rm -rf /var/lib/apt/lists/* /var/cache/apt/*
