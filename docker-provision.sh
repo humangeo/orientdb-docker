@@ -1,5 +1,5 @@
 #!/bin/sh -eu
-ORIENTDB_VERSION="2.1.5"
+ORIENTDB_VERSION="2.1.6"
 ORIENTDB_HOME=/opt/orientdb
 
 
