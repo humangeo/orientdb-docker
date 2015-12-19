@@ -2,6 +2,11 @@
 ORIENTDB_VERSION="2.1.6"
 ORIENTDB_HOME=/opt/orientdb
 
+# Add Debian Backports repository
+cat <<EOF > /etc/apt/sources.list.d/backports.list
+# Debian "Jessie" Backports repository
+deb http://http.debian.net/debian jessie-backports main
+EOF
 
 # update Apt repositories
 apt-get update
@@ -14,7 +19,7 @@ mkdir -p /var/log/supervisor
 
 # install remaining OrientDB dependencies
 # see: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-orientdb-on-an-ubuntu-12-04-vps
-apt-get -y install openjdk-7-jdk
+apt-get -y install openjdk-8-jdk
 
 
 # add installation dependencies
