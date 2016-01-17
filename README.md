@@ -2,7 +2,7 @@ OrientDB running in a Docker container.
 
 ## Usage
 
-This configuration requires that the database admin password is set as an
+This configuration requires that the database *root* user password is set as an
 environment variable (`ODB_ADMIN_PASSWORD`).
 
 To run OrientDB:
