@@ -1,5 +1,5 @@
 #!/bin/sh -eu
-ORIENTDB_VERSION="2.1.10"
+ORIENTDB_VERSION="2.1.11"
 ORIENTDB_HOME=/opt/orientdb
 
 # Add Debian Backports repository
