@@ -1,8 +1,9 @@
 #!/bin/sh -eu
 ORIENTDB_VERSION="2.1.12"
 ORIENTDB_HOME=/opt/orientdb
+BUILD_PACKAGES="curl"
 
-# Add Debian Backports repository
+# Add Debian Backports repository...needed for OpenJDK 8
 cat <<EOF > /etc/apt/sources.list.d/backports.list
 # Debian "Jessie" Backports repository
 deb http://http.debian.net/debian jessie-backports main
@@ -16,14 +17,28 @@ apt-get update
 apt-get -y install supervisor
 mkdir -p /var/log/supervisor
 
+# use custom configuration to start OrientDB w/supervisord
+cat <<EOF > /etc/supervisor/conf.d/supervisord.conf
+[supervisord]
+nodaemon=true
+
+[program:orientdb]
+command=/opt/orientdb/bin/server.sh
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/orientdb.err.log
+stdout_logfile=/var/log/orientdb.out.log
+EOF
+
 
 # install remaining OrientDB dependencies
 # see: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-orientdb-on-an-ubuntu-12-04-vps
-apt-get -y install openjdk-8-jdk
+#apt-get -y install openjdk-8-jdk
+apt-get -y install openjdk-8-jre-headless
 
 
 # add installation dependencies
-apt-get -y install curl
+apt-get -y install $BUILD_PACKAGES
 
 
 # Install OrientDB w/default config, but without the sample databases and backup
@@ -38,8 +53,13 @@ rm -rf $ORIENTDB_HOME/databases $ORIENTDB_HOME/backup
 rm -f orientdb-community-$ORIENTDB_VERSION.tar.gz
 
 
+# add an entrypoint script that will wrap the command
+mv /tmp/docker/docker-entrypoint.sh /entrypoint.sh
+chmod +x /entrypoint.sh
+
+
 # remove installation dependencies
-apt-get -y purge curl
+apt-get -y purge $BUILD_PACKAGES
 
 
 # clean up (apt)

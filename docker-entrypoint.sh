@@ -1,4 +1,5 @@
 #!/bin/sh -e
+# entrypoint.sh --- Wraps the docker run command.
 ORIENTDB_HOME=/opt/orientdb
 ODB_ADMIN_USER=${ODB_ADMIN_USER:-root}
 
@@ -10,6 +11,9 @@ if [ ! -f $ORIENTDB_HOME/config/orientdb-server-config.xml ]; then
 fi
 
 
+# Configure database server. This container can be used to run the
+# OrientDB server or the OrientDB console. The server requires some
+# configuration for handling the root user's password.
 if [ "$1" != '/opt/orientdb/bin/console.sh' ]; then
   # fail if user did not provide default admin password
   if [ -z "$ODB_ADMIN_PASSWORD" ]; then
@@ -19,7 +23,7 @@ if [ "$1" != '/opt/orientdb/bin/console.sh' ]; then
   fi
 
 
-  # add a default admin user
+  # add a default administrator user (i.e. super user)
   mv $ORIENTDB_HOME/config/orientdb-server-config.xml $ORIENTDB_HOME/config/orientdb-server-config.xml.orig
   sed "/<users>/,/<\/users>/{
     # insert new user info after opening tag.

@@ -6,19 +6,15 @@ FROM debian:jessie
 USER root
 
 # Add provisioning script
-ADD docker-provision.sh /tmp/
+ADD docker-*.sh /tmp/docker/
 
-# use custom configuration to start OrientDB w/supervisord
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-
-RUN cd /tmp/ && sh docker-provision.sh
+# provision the image
+RUN sh /tmp/docker/docker-provision.sh
 
 WORKDIR /opt/orientdb/
 EXPOSE 2424
 EXPOSE 2480
-
-COPY docker-entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Start OrientDB when the container starts
+# Start OrientDB when the container starts by default
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
