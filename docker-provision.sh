@@ -1,5 +1,5 @@
 #!/bin/sh -eu
-ORIENTDB_VERSION="2.1.12"
+ORIENTDB_VERSION="2.1.13"
 ORIENTDB_HOME=/opt/orientdb
 BUILD_PACKAGES="curl"
 
