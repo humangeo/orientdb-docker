@@ -1,6 +1,7 @@
 #!/bin/sh -eu
 ORIENTDB_VERSION="2.1.14"
 ORIENTDB_HOME=/opt/orientdb
+ORIENTDB_DOWNLOAD_URL=http://central.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION
 BUILD_PACKAGES="curl"
 
 # Add Debian Backports repository...needed for OpenJDK 8
@@ -45,12 +46,15 @@ apt-get -y install $BUILD_PACKAGES
 # directories. This allows the database to be run as-as, but if to persist data
 # across restarts the databases and config directories can be mapped to the local
 # file system.
-cd
-curl -J -O http://orientdb.com/download.php?file=orientdb-community-$ORIENTDB_VERSION.tar.gz
+for f in $ORIENTDB_DOWNLOAD_URL/orientdb-community-$ORIENTDB_VERSION.tar.{gz,gz.md5,gz.sha1}; do
+  curl -J -O $f
+done
+(cat orientdb-community-$ORIENTDB_VERSION.tar.gz.md5 ; echo " orientdb-community-$ORIENTDB_VERSION.tar.gz") | md5sum -c -
+(cat orientdb-community-$ORIENTDB_VERSION.tar.gz.sha1 ; echo " orientdb-community-$ORIENTDB_VERSION.tar.gz") | sha1sum -c -
 tar xzf orientdb-community-$ORIENTDB_VERSION.tar.gz
 mv orientdb-community-$ORIENTDB_VERSION $ORIENTDB_HOME
 rm -rf $ORIENTDB_HOME/databases $ORIENTDB_HOME/backup
-rm -f orientdb-community-$ORIENTDB_VERSION.tar.gz
+rm -f orientdb-community-$ORIENTDB_VERSION.tar.gz*
 
 
 # add an entrypoint script that will wrap the command
