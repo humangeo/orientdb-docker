@@ -1,5 +1,5 @@
 #!/bin/sh -eu
-ORIENTDB_VERSION="2.1.15"
+ORIENTDB_VERSION="2.1.16"
 ORIENTDB_HOME=/opt/orientdb
 ORIENTDB_DOWNLOAD_URL=http://central.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION
 BUILD_PACKAGES="curl"
